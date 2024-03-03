@@ -15,7 +15,7 @@ namespace Kumustagram_API.Models
 
         public int CommentCount = 0;
         public List<ContentLike> Likes { get; set; } = new List<ContentLike>();
-        public List<Comment> Comments { get; set; } = new List<Comment>();  // reference to Comment
+        public List<ContentComment> ContentComments { get; set; } = new List<ContentComment>();  // reference to Comment
 
         [ForeignKey("User")]
         public int UserId { get; set; } // foreign key

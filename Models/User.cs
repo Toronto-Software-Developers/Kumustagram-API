@@ -8,6 +8,7 @@ namespace Kumustagram_API.Models
 {
     public class User
     {
+        [Key]
         public int UserId { get; set; }
 
         [Required]
@@ -29,9 +30,9 @@ namespace Kumustagram_API.Models
         public int FollowingsCount = 0;
         public int ContentsCount = 0;
 
-        public List<Content> contents { get; set; } = new List<Content>();
+        public List<Content> Contents { get; set; } = new List<Content>();
         public List<ContentLike> LikedContents { get; set; } = new List<ContentLike>();
-        public List<Comment> CommentedContents { get; set; } = new List<Comment>();
+        public List<ContentComment> CommentedContents { get; set; } = new List<ContentComment>();
         public List<Follower> Followers { get; set; } = new List<Follower>();
         public List<Following> Followings { get; set; } = new List<Following>();
     }

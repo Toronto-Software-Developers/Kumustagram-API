@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kumustagram_API.Models
 {
-    public class Comment
+    public class ContentComment
     {
-        public int CommentId { get; set; }
+        public int ContentCommentId { get; set; }
         public string CommentStr { get; set; }
 
 

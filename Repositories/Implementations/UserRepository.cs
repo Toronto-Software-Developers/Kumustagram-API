@@ -2,13 +2,14 @@
 using Kumustagram_API.Models;
 using Kumustagram_API.Repositories.Interfaces;
 
+/*
 namespace Kumustagram_API.Repositories.Implementations
 {
     public class UserRepository : IUser
     {
-        private readonly UserDbContext _context;
+        private readonly DbContext _context;
 
-        public UserRepository(UserDbContext context)
+        public UserRepository(DbContext context)
         {
             _context = context;
         }
@@ -63,3 +64,5 @@ namespace Kumustagram_API.Repositories.Implementations
         }
     }
 }
+
+*/
