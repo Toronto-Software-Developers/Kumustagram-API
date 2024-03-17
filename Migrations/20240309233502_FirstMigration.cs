@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Kumustagram_API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,39 +70,30 @@ namespace Kumustagram_API.Migrations
                 {
                     FollowerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FollowingUserId = table.Column<int>(type: "int", nullable: false)
+                    FollowedUserId = table.Column<int>(type: "int", nullable: false),
+                    FollowerUserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Followers", x => x.FollowerId);
                     table.ForeignKey(
+                        name: "FK_Followers_Users_FollowedUserId",
+                        column: x => x.FollowedUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Followers_Users_FollowerUserId",
+                        column: x => x.FollowerUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Followers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Followings",
-                columns: table => new
-                {
-                    FollowingId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FollowedUserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Followings", x => x.FollowingId);
-                    table.ForeignKey(
-                        name: "FK_Followings_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -188,13 +179,18 @@ namespace Kumustagram_API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Followers_UserId",
+                name: "IX_Followers_FollowedUserId",
                 table: "Followers",
-                column: "UserId");
+                column: "FollowedUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Followings_UserId",
-                table: "Followings",
+                name: "IX_Followers_FollowerUserId",
+                table: "Followers",
+                column: "FollowerUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Followers_UserId",
+                table: "Followers",
                 column: "UserId");
         }
 
@@ -209,9 +205,6 @@ namespace Kumustagram_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Followers");
-
-            migrationBuilder.DropTable(
-                name: "Followings");
 
             migrationBuilder.DropTable(
                 name: "Contents");

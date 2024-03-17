@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Kumustagram_API.Models
@@ -26,14 +27,15 @@ namespace Kumustagram_API.Models
         public string ResetPasswordToken { get; set; }
         public DateTime ResetPasswordExpire { get; set; }
 
-        public int FollowersCount = 0;
-        public int FollowingsCount = 0;
-        public int ContentsCount = 0;
 
         public List<Content> Contents { get; set; } = new List<Content>();
         public List<ContentLike> LikedContents { get; set; } = new List<ContentLike>();
         public List<ContentComment> CommentedContents { get; set; } = new List<ContentComment>();
-        public List<Follower> Followers { get; set; } = new List<Follower>();
-        public List<Following> Followings { get; set; } = new List<Following>();
+
+        [InverseProperty("FollowerUser")]
+        public List<Follower> FollowerUsers { get; set; } = new List<Follower>();
+
+        [InverseProperty("FollowedUser")]
+        public List<Follower> FollowedUsers { get; set; } = new List<Follower>();
     }
 }

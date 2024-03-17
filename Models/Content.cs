@@ -11,9 +11,6 @@ namespace Kumustagram_API.Models
         public string Image { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public int LikeCount = 0;
-
-        public int CommentCount = 0;
         public List<ContentLike> Likes { get; set; } = new List<ContentLike>();
         public List<ContentComment> ContentComments { get; set; } = new List<ContentComment>();  // reference to Comment
 

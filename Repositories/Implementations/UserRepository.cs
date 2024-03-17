@@ -2,14 +2,14 @@
 using Kumustagram_API.Models;
 using Kumustagram_API.Repositories.Interfaces;
 
-/*
+
 namespace Kumustagram_API.Repositories.Implementations
 {
     public class UserRepository : IUser
     {
-        private readonly DbContext _context;
+        private readonly KumustagramDbContext _context;
 
-        public UserRepository(DbContext context)
+        public UserRepository(KumustagramDbContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Kumustagram_API.Repositories.Implementations
 
         public User GetUserById(int id)
         {
-            User user = _context.Users.Where(x => x.Id == id).FirstOrDefault();
+            User user = _context.Users.Where(x => x.UserId == id).FirstOrDefault();
             if (user == null)
             {
                 throw new Exception("User not found!");
@@ -30,6 +30,25 @@ namespace Kumustagram_API.Repositories.Implementations
             return user;
         }
 
+        public User GetUserByEmail(string email) 
+        {
+            User user = _context.Users.Where(x => x.Email == email).FirstOrDefault();
+            if (user == null)
+            {
+                throw new Exception("User not found!");
+            }
+            return user;
+        }
+
+        public User GetUserByResetPasswordToken(string resetPasswordToken) 
+        {
+            User user = _context.Users.Where(x => x.ResetPasswordToken == resetPasswordToken).FirstOrDefault();
+            if (user == null)
+            {
+                throw new Exception("User not found!");
+            }
+            return user;
+        }
         public void CreateUser(User user)
         {
             _context.Users.Add(user);
@@ -38,7 +57,7 @@ namespace Kumustagram_API.Repositories.Implementations
 
         public void UpdateUser(User user)
         {
-            User _user = _context.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+            User _user = _context.Users.Where(x => x.UserId == user.UserId).FirstOrDefault();
             if (_user == null)
             {
                 throw new Exception("User not found!");
@@ -56,7 +75,7 @@ namespace Kumustagram_API.Repositories.Implementations
 
         public void DeleteUser(int id)
         {
-            User _user = _context.Users.Where(x => id == x.Id).FirstOrDefault();
+            User _user = _context.Users.Where(x => id == x.UserId).FirstOrDefault();
             if (_user == null) { throw new Exception("User not found!"); }
 
             _context.Users.Remove(_user);
@@ -64,5 +83,3 @@ namespace Kumustagram_API.Repositories.Implementations
         }
     }
 }
-
-*/

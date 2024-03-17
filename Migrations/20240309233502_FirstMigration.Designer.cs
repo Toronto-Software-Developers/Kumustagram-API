@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kumustagram_API.Migrations
 {
     [DbContext(typeof(KumustagramDbContext))]
-    [Migration("20240224194037_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20240309233502_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,36 +100,24 @@ namespace Kumustagram_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("FollowingUserId")
+                    b.Property<int>("FollowedUserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("FollowerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("FollowerId");
 
+                    b.HasIndex("FollowedUserId");
+
+                    b.HasIndex("FollowerUserId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Followers");
-                });
-
-            modelBuilder.Entity("Kumustagram_API.Models.Following", b =>
-                {
-                    b.Property<int>("FollowingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("FollowedUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FollowingId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Followings");
                 });
 
             modelBuilder.Entity("Kumustagram_API.Models.User", b =>
@@ -218,24 +206,25 @@ namespace Kumustagram_API.Migrations
 
             modelBuilder.Entity("Kumustagram_API.Models.Follower", b =>
                 {
-                    b.HasOne("Kumustagram_API.Models.User", "User")
+                    b.HasOne("Kumustagram_API.Models.User", "FollowedUser")
+                        .WithMany()
+                        .HasForeignKey("FollowedUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Kumustagram_API.Models.User", "FollowerUser")
+                        .WithMany()
+                        .HasForeignKey("FollowerUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Kumustagram_API.Models.User", null)
                         .WithMany("Followers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("User");
-                });
+                    b.Navigation("FollowedUser");
 
-            modelBuilder.Entity("Kumustagram_API.Models.Following", b =>
-                {
-                    b.HasOne("Kumustagram_API.Models.User", "User")
-                        .WithMany("Followings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("FollowerUser");
                 });
 
             modelBuilder.Entity("Kumustagram_API.Models.Content", b =>
@@ -252,8 +241,6 @@ namespace Kumustagram_API.Migrations
                     b.Navigation("Contents");
 
                     b.Navigation("Followers");
-
-                    b.Navigation("Followings");
 
                     b.Navigation("LikedContents");
                 });

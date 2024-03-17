@@ -18,7 +18,6 @@ namespace Kumustagram_API.DatabaseContext
         public DbSet<ContentLike> ContentLikes { get; set; }
         public DbSet<ContentComment> ContentComments { get; set; }
         public DbSet<Follower> Followers { get; set; }
-        public DbSet<Following> Followings { get; set; }
 
     }
 }

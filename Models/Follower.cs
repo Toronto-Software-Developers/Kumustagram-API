@@ -7,11 +7,14 @@ namespace Kumustagram_API.Models
         public int FollowerId { get; set; }
 
 
-        [ForeignKey("UserId")]
-        public int UserId { get; set; } // User who is being followed by the User below
-        public User User { get; set; }
+        [ForeignKey("FollowedUser")]
+        public int FollowedUserId { get; set; }
+        public User FollowedUser { get; set; } // Represents the user being followed by the follower
 
 
-        public int FollowingUserId { get; set; } // User is following the User above
+
+        [ForeignKey("FollowerUser")]
+        public int FollowerUserId { get; set; } 
+        public User FollowerUser { get; set; } // Represents the user who is following the followed user
     }
 }
